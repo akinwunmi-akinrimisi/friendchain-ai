@@ -1,0 +1,292 @@
+{
+  "username": "alex.base",
+  "questions": [
+    {
+      "questionText": "What is the most common time for alex.base to post about tech?",
+      "options": [
+        "Morning",
+        "Afternoon",
+        "Evening",
+        "Late Night"
+      ],
+      "correctAnswer": 2,
+      "category": "Online Habits",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 1
+    },
+    {
+      "questionText": "What is the top interest of alex.base?",
+      "options": [
+        "Artificial Intelligence",
+        "Finance",
+        "Sports",
+        "Art"
+      ],
+      "correctAnswer": 0,
+      "category": "Career",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 2
+    },
+    {
+      "questionText": "What personality trait is alex.base known for?",
+      "options": [
+        "Openness",
+        "Conscientiousness",
+        "Extraversion",
+        "Agreeableness"
+      ],
+      "correctAnswer": 0,
+      "category": "Mindset",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 3
+    },
+    {
+      "questionText": "What technology does alex.base engage with?",
+      "options": [
+        "Blockchain",
+        "Virtual Reality",
+        "Quantum Computing",
+        "Robotics"
+      ],
+      "correctAnswer": 0,
+      "category": "Career",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 4
+    },
+    {
+      "questionText": "What is alex.base's main goal?",
+      "options": [
+        "Build decentralized solutions",
+        "Start a traditional business",
+        "Become a teacher",
+        "Travel the world"
+      ],
+      "correctAnswer": 0,
+      "category": "Life Goals",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 5
+    },
+    {
+      "questionText": "What is the most common time for alex.base to post about tech?",
+      "options": [
+        "Morning",
+        "Afternoon",
+        "Evening",
+        "Late Night"
+      ],
+      "correctAnswer": 2,
+      "category": "Online Habits",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 6
+    },
+    {
+      "questionText": "What is the most common time for alex.base to post about tech?",
+      "options": [
+        "Morning",
+        "Afternoon",
+        "Evening",
+        "Late Night"
+      ],
+      "correctAnswer": 2,
+      "category": "Online Habits",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 7
+    },
+    {
+      "questionText": "What does alex.base communicate on?",
+      "options": [
+        "Enthusiastic and technical",
+        "Formal and reserved",
+        "Casual and humorous",
+        "Direct and blunt"
+      ],
+      "correctAnswer": 0,
+      "category": "Vibe",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 8
+    },
+    {
+      "questionText": "What is alex.base's main goal?",
+      "options": [
+        "Build decentralized solutions",
+        "Start a traditional business",
+        "Become a teacher",
+        "Travel the world"
+      ],
+      "correctAnswer": 0,
+      "category": "Life Goals",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 9
+    },
+    {
+      "questionText": "What technology does alex.base engage with?",
+      "options": [
+        "Blockchain",
+        "Virtual Reality",
+        "Quantum Computing",
+        "Robotics"
+      ],
+      "correctAnswer": 0,
+      "category": "Career",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 10
+    },
+    {
+      "questionText": "What is alex.base's main goal?",
+      "options": [
+        "Build decentralized solutions",
+        "Start a traditional business",
+        "Become a teacher",
+        "Travel the world"
+      ],
+      "correctAnswer": 0,
+      "category": "Life Goals",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 11
+    },
+    {
+      "questionText": "What is the top interest of alex.base?",
+      "options": [
+        "Artificial Intelligence",
+        "Finance",
+        "Sports",
+        "Art"
+      ],
+      "correctAnswer": 0,
+      "category": "Career",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 12
+    },
+    {
+      "questionText": "What technology does alex.base engage with?",
+      "options": [
+        "Blockchain",
+        "Virtual Reality",
+        "Quantum Computing",
+        "Robotics"
+      ],
+      "correctAnswer": 0,
+      "category": "Career",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 13
+    },
+    {
+      "questionText": "What personality trait is alex.base known for?",
+      "options": [
+        "Openness",
+        "Conscientiousness",
+        "Extraversion",
+        "Agreeableness"
+      ],
+      "correctAnswer": 0,
+      "category": "Mindset",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 14
+    },
+    {
+      "questionText": "What is the top interest of alex.base?",
+      "options": [
+        "Artificial Intelligence",
+        "Finance",
+        "Sports",
+        "Art"
+      ],
+      "correctAnswer": 0,
+      "category": "Career",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 15
+    },
+    {
+      "questionText": "What is alex.base's main goal?",
+      "options": [
+        "Build decentralized solutions",
+        "Start a traditional business",
+        "Become a teacher",
+        "Travel the world"
+      ],
+      "correctAnswer": 0,
+      "category": "Life Goals",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 16
+    },
+    {
+      "questionText": "What is alex.base's main goal?",
+      "options": [
+        "Build decentralized solutions",
+        "Start a traditional business",
+        "Become a teacher",
+        "Travel the world"
+      ],
+      "correctAnswer": 0,
+      "category": "Life Goals",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 17
+    },
+    {
+      "questionText": "What is the most common time for alex.base to post about tech?",
+      "options": [
+        "Morning",
+        "Afternoon",
+        "Evening",
+        "Late Night"
+      ],
+      "correctAnswer": 2,
+      "category": "Online Habits",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 18
+    },
+    {
+      "questionText": "What does alex.base communicate on?",
+      "options": [
+        "Enthusiastic and technical",
+        "Formal and reserved",
+        "Casual and humorous",
+        "Direct and blunt"
+      ],
+      "correctAnswer": 0,
+      "category": "Vibe",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 19
+    },
+    {
+      "questionText": "What value does alex.base prioritize based on?",
+      "options": [
+        "Transparency",
+        "Competition",
+        "Tradition",
+        "Security"
+      ],
+      "correctAnswer": 0,
+      "category": "Mindset",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 20
+    }
+  ],
+  "categories": {
+    "Mindset": 3,
+    "Career": 6,
+    "Life Goals": 5,
+    "Vibe": 2,
+    "Online Habits": 4
+  }
+}
