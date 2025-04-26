@@ -33,7 +33,7 @@ def generate_question(prompt, options, correct_answer):
     }
 
 def generate_trivia(avatar, username):
-    """Generate 20 trivia questions from avatar."""
+    """Generate 20 trivia questions from avatar with limited template reuse."""
     questions = []
     categories = {
         "Mindset": [],
@@ -58,6 +58,12 @@ def generate_trivia(avatar, username):
             "options": ["Transparency", "Competition", "Tradition", "Security"],
             "correctAnswer": 0
         },
+        {
+            "category": "Mindset",
+            "prompt": f"question: What motivates {username} based on: {avatar['description']} [HL] Innovation [HL]",
+            "options": ["Innovation", "Stability", "Fame", "Comfort"],
+            "correctAnswer": 0
+        },
         # Career (interests)
         {
             "category": "Career",
@@ -71,11 +77,23 @@ def generate_trivia(avatar, username):
             "options": ["Blockchain", "Virtual Reality", "Quantum Computing", "Robotics"],
             "correctAnswer": 0
         },
+        {
+            "category": "Career",
+            "prompt": f"question: What skill is {username} passionate about based on: {avatar['interests']} [HL] Coding [HL]",
+            "options": ["Coding", "Marketing", "Design", "Writing"],
+            "correctAnswer": 0
+        },
         # Life Goals
         {
             "category": "Life Goals",
             "prompt": f"question: What is {username}'s main goal based on: {avatar['goals']} [HL] Build decentralized solutions [HL]",
             "options": ["Build decentralized solutions", "Start a traditional business", "Become a teacher", "Travel the world"],
+            "correctAnswer": 0
+        },
+        {
+            "category": "Life Goals",
+            "prompt": f"question: What impact does {username} aim to have based on: {avatar['description']} [HL] Technology [HL]",
+            "options": ["Advance technology", "Preserve tradition", "Promote art", "Protect environment"],
             "correctAnswer": 0
         },
         # Vibe (communication style)
@@ -85,24 +103,69 @@ def generate_trivia(avatar, username):
             "options": ["Enthusiastic and technical", "Formal and reserved", "Casual and humorous", "Direct and blunt"],
             "correctAnswer": 0
         },
+        {
+            "category": "Vibe",
+            "prompt": f"question: What tone does {username} use in posts based on: {avatar['description']} [HL] Excitement [HL]",
+            "options": ["Excited", "Sarcastic", "Neutral", "Critical"],
+            "correctAnswer": 0
+        },
         # Online Habits
         {
             "category": "Online Habits",
             "prompt": f"question: When does {username} typically post about tech based on their active hours?",
             "options": ["Morning", "Afternoon", "Evening", "Late Night"],
-            "correctAnswer": 2  # Mocked based on tweet timestamps
+            "correctAnswer": 2
+        },
+        {
+            "category": "Online Habits",
+            "prompt": f"question: What type of event does {username} often share based on: {avatar['interests']} [HL] Tech Events [HL]",
+            "options": ["Tech Events", "Music Festivals", "Book Clubs", "Sports Games"],
+            "correctAnswer": 0
         }
     ]
 
-    # Generate 20 questions (3-4 per category)
-    for _ in range(20):
-        template = random.choice(templates)
-        category = template["category"]
+    # Track template usage
+    template_counts = {i: 0 for i in range(len(templates))}
+    max_per_template = 2  # Limit each template to 2 uses
+
+    # Generate 20 questions
+    generated_questions = set()
+    while len(questions) < 20:
+        available_templates = [t for i, t in enumerate(templates) if template_counts[i] < max_per_template]
+        if not available_templates:
+            break  # No more unique templates
+        template = random.choice(available_templates)
+        template_idx = templates.index(template)
         question = generate_question(template["prompt"], template["options"], template["correctAnswer"])
+        question_text = question["questionText"].lower()
+        # Avoid duplicates
+        if question_text in generated_questions:
+            continue
+        generated_questions.add(question_text)
+        template_counts[template_idx] += 1
+        category = template["category"]
         question.update({
             "category": category,
             "stake_amount": 0.01,  # ETH to stake
             "reward": 0.02,  # ETH for correct answer
+            "questionId": len(questions) + 1
+        })
+        categories[category].append(question)
+        questions.append(question)
+
+    # Fill remaining questions if needed
+    while len(questions) < 20:
+        template = random.choice(templates)
+        question = generate_question(template["prompt"], template["options"], template["correctAnswer"])
+        question_text = question["questionText"].lower()
+        if question_text in generated_questions:
+            continue
+        generated_questions.add(question_text)
+        category = template["category"]
+        question.update({
+            "category": category,
+            "stake_amount": 0.01,
+            "reward": 0.02,
             "questionId": len(questions) + 1
         })
         categories[category].append(question)
