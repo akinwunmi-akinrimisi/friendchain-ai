@@ -1,25 +1,22 @@
 {
   "username": "alex.base",
   "big5_traits": {
-    "Openness": 0.7857137163146611,
-    "Conscientiousness": 0.7026047714235205,
-    "Extraversion": 0.5005202250290713,
-    "Agreeableness": 0.5366355662371673,
-    "Neuroticism": 0.37269621852044676
+    "Openness": 0.7977213041857552,
+    "Conscientiousness": 0.7832467820822316,
+    "Extraversion": 0.5309743580734475,
+    "Agreeableness": 0.5819217182319354,
+    "Neuroticism": 0.33233740201934203
   },
   "interests": [
     "Artificial Intelligence",
-    "Blockchain",
-    "Coding",
-    "Tech Events"
+    "Blockchain"
   ],
   "values": [
-    "Innovation",
-    "Transparency"
+    "Innovation"
   ],
   "goals": [
     "Build decentralized solutions"
   ],
-  "communication_style": "Enthusiastic and technical",
+  "communication_style": "Informative",
   "description": "alex.base is a highly open and conscientious individual, driven by a passion for innovation in technology. They thrive in dynamic environments like San Francisco\u2019s tech scene, where they engage with AI, blockchain, and coding. Their communication is enthusiastic and technical, often sharing insights with excitement. With a goal to build decentralized solutions, alex.base values transparency and collaboration, reflecting a forward-thinking mindset."
 }

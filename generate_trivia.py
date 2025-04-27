@@ -1,11 +1,5 @@
 import json
-import torch
-from transformers import T5Tokenizer, T5ForConditionalGeneration
 import random
-
-# Load T5 model and tokenizer
-tokenizer = T5Tokenizer.from_pretrained("valhalla/t5-base-qg-hl")
-model = T5ForConditionalGeneration.from_pretrained("valhalla/t5-base-qg-hl")
 
 def load_avatar(username):
     """Load personality avatar."""
@@ -18,22 +12,8 @@ def load_avatar(username):
         print(f"Error loading avatar: {e}")
         return {}
 
-def generate_question(prompt, options, correct_answer):
-    """Generate a question using T5."""
-    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512)
-    with torch.no_grad():
-        outputs = model.generate(**inputs, max_length=100)
-    question = tokenizer.decode(outputs[0], skip_special_tokens=True).capitalize()
-    if not question.endswith("?"):
-        question = question.rstrip(".") + "?"
-    return {
-        "questionText": question,
-        "options": options,
-        "correctAnswer": correct_answer
-    }
-
 def generate_trivia(avatar, username):
-    """Generate 20 trivia questions from avatar with limited template reuse."""
+    """Generate 20 trivia questions from avatar using templates."""
     questions = []
     categories = {
         "Mindset": [],
@@ -45,130 +25,146 @@ def generate_trivia(avatar, username):
 
     # Question templates
     templates = [
-        # Mindset (Big 5 traits, values)
+        # Mindset (3 questions)
         {
             "category": "Mindset",
-            "prompt": f"question: What personality trait is {username} known for based on: {avatar['description']} [HL] Openness [HL]",
+            "questionText": f"What personality trait is {username} most known for?",
             "options": ["Openness", "Conscientiousness", "Extraversion", "Agreeableness"],
             "correctAnswer": 0
         },
         {
             "category": "Mindset",
-            "prompt": f"question: What value does {username} prioritize based on: {avatar['values']} [HL] Transparency [HL]",
+            "questionText": f"What value does {username} prioritize most?",
             "options": ["Transparency", "Competition", "Tradition", "Security"],
             "correctAnswer": 0
         },
         {
             "category": "Mindset",
-            "prompt": f"question: What motivates {username} based on: {avatar['description']} [HL] Innovation [HL]",
+            "questionText": f"What drives {username}’s motivation?",
             "options": ["Innovation", "Stability", "Fame", "Comfort"],
             "correctAnswer": 0
         },
-        # Career (interests)
+        # Career (5 questions)
         {
             "category": "Career",
-            "prompt": f"question: What is {username}'s top interest based on: {avatar['interests']} [HL] Artificial Intelligence [HL]",
+            "questionText": f"What is {username}’s top interest?",
             "options": ["Artificial Intelligence", "Finance", "Sports", "Art"],
             "correctAnswer": 0
         },
         {
             "category": "Career",
-            "prompt": f"question: What technology does {username} engage with based on: {avatar['interests']} [HL] Blockchain [HL]",
+            "questionText": f"What technology does {username} engage with?",
             "options": ["Blockchain", "Virtual Reality", "Quantum Computing", "Robotics"],
             "correctAnswer": 0
         },
         {
             "category": "Career",
-            "prompt": f"question: What skill is {username} passionate about based on: {avatar['interests']} [HL] Coding [HL]",
+            "questionText": f"What skill is {username} passionate about?",
             "options": ["Coding", "Marketing", "Design", "Writing"],
             "correctAnswer": 0
         },
-        # Life Goals
+        {
+            "category": "Career",
+            "questionText": f"Where does {username} thrive professionally?",
+            "options": ["San Francisco tech scene", "Wall Street", "Hollywood", "Academic research"],
+            "correctAnswer": 0
+        },
+        {
+            "category": "Career",
+            "questionText": f"What field excites {username}?",
+            "options": ["Tech Events", "Fashion", "Politics", "Culinary Arts"],
+            "correctAnswer": 0
+        },
+        # Life Goals (4 questions)
         {
             "category": "Life Goals",
-            "prompt": f"question: What is {username}'s main goal based on: {avatar['goals']} [HL] Build decentralized solutions [HL]",
+            "questionText": f"What is {username}’s main goal?",
             "options": ["Build decentralized solutions", "Start a traditional business", "Become a teacher", "Travel the world"],
             "correctAnswer": 0
         },
         {
             "category": "Life Goals",
-            "prompt": f"question: What impact does {username} aim to have based on: {avatar['description']} [HL] Technology [HL]",
+            "questionText": f"What impact does {username} want to have?",
             "options": ["Advance technology", "Preserve tradition", "Promote art", "Protect environment"],
             "correctAnswer": 0
         },
-        # Vibe (communication style)
+        {
+            "category": "Life Goals",
+            "questionText": f"What does {username} aim to build?",
+            "options": ["Decentralized platforms", "Corporate empires", "Charity organizations", "Social media apps"],
+            "correctAnswer": 0
+        },
+        {
+            "category": "Life Goals",
+            "questionText": f"What future does {username} envision?",
+            "options": ["Decentralized internet", "Global corporation", "Sustainable cities", "Space exploration"],
+            "correctAnswer": 0
+        },
+        # Vibe (4 questions)
         {
             "category": "Vibe",
-            "prompt": f"question: How does {username} communicate based on: {avatar['communication_style']} [HL] Enthusiastic and technical [HL]",
+            "questionText": f"How does {username} communicate?",
             "options": ["Enthusiastic and technical", "Formal and reserved", "Casual and humorous", "Direct and blunt"],
             "correctAnswer": 0
         },
         {
             "category": "Vibe",
-            "prompt": f"question: What tone does {username} use in posts based on: {avatar['description']} [HL] Excitement [HL]",
+            "questionText": f"What tone does {username} use in posts?",
             "options": ["Excited", "Sarcastic", "Neutral", "Critical"],
             "correctAnswer": 0
         },
-        # Online Habits
+        {
+            "category": "Vibe",
+            "questionText": f"What’s {username}’s social vibe?",
+            "options": ["Tech enthusiast", "Corporate professional", "Free spirit", "Activist"],
+            "correctAnswer": 0
+        },
+        {
+            "category": "Vibe",
+            "questionText": f"How would friends describe {username}’s energy?",
+            "options": ["Innovative", "Conservative", "Relaxed", "Intense"],
+            "correctAnswer": 0
+        },
+        # Online Habits (4 questions)
         {
             "category": "Online Habits",
-            "prompt": f"question: When does {username} typically post about tech based on their active hours?",
+            "questionText": f"When does {username} typically post about tech?",
             "options": ["Morning", "Afternoon", "Evening", "Late Night"],
             "correctAnswer": 2
         },
         {
             "category": "Online Habits",
-            "prompt": f"question: What type of event does {username} often share based on: {avatar['interests']} [HL] Tech Events [HL]",
+            "questionText": f"What events does {username} share online?",
             "options": ["Tech Events", "Music Festivals", "Book Clubs", "Sports Games"],
+            "correctAnswer": 0
+        },
+        {
+            "category": "Online Habits",
+            "questionText": f"What’s {username}’s favorite online topic?",
+            "options": ["Web3", "Politics", "Travel", "Food"],
+            "correctAnswer": 0
+        },
+        {
+            "category": "Online Habits",
+            "questionText": f"How often does {username} post about coding?",
+            "options": ["Frequently", "Occasionally", "Rarely", "Never"],
             "correctAnswer": 0
         }
     ]
 
-    # Track template usage
-    template_counts = {i: 0 for i in range(len(templates))}
-    max_per_template = 2  # Limit each template to 2 uses
-
-    # Generate 20 questions
-    generated_questions = set()
-    while len(questions) < 20:
-        available_templates = [t for i, t in enumerate(templates) if template_counts[i] < max_per_template]
-        if not available_templates:
-            break  # No more unique templates
-        template = random.choice(available_templates)
-        template_idx = templates.index(template)
-        question = generate_question(template["prompt"], template["options"], template["correctAnswer"])
-        question_text = question["questionText"].lower()
-        # Avoid duplicates
-        if question_text in generated_questions:
-            continue
-        generated_questions.add(question_text)
-        template_counts[template_idx] += 1
-        category = template["category"]
-        question.update({
-            "category": category,
+    # Shuffle and select 20 questions
+    random.shuffle(templates)
+    for i, template in enumerate(templates[:20], 1):
+        question = {
+            "questionText": template["questionText"],
+            "options": template["options"],
+            "correctAnswer": template["correctAnswer"],
+            "category": template["category"],
             "stake_amount": 0.01,  # ETH to stake
             "reward": 0.02,  # ETH for correct answer
-            "questionId": len(questions) + 1
-        })
-        categories[category].append(question)
-        questions.append(question)
-
-    # Fill remaining questions if needed
-    while len(questions) < 20:
-        template = random.choice(templates)
-        question = generate_question(template["prompt"], template["options"], template["correctAnswer"])
-        question_text = question["questionText"].lower()
-        if question_text in generated_questions:
-            continue
-        generated_questions.add(question_text)
-        category = template["category"]
-        question.update({
-            "category": category,
-            "stake_amount": 0.01,
-            "reward": 0.02,
-            "questionId": len(questions) + 1
-        })
-        categories[category].append(question)
+            "questionId": i
+        }
+        categories[template["category"]].append(question)
         questions.append(question)
 
     # Save questions to JSON
