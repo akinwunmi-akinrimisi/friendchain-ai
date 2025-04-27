@@ -2,20 +2,6 @@
   "username": "alex.base",
   "questions": [
     {
-      "questionText": "How often does alex.base post about coding?",
-      "options": [
-        "Frequently",
-        "Occasionally",
-        "Rarely",
-        "Never"
-      ],
-      "correctAnswer": 0,
-      "category": "Online Habits",
-      "stake_amount": 0.01,
-      "reward": 0.02,
-      "questionId": 1
-    },
-    {
       "questionText": "What\u2019s alex.base\u2019s favorite online topic?",
       "options": [
         "Web3",
@@ -27,46 +13,60 @@
       "category": "Online Habits",
       "stake_amount": 0.01,
       "reward": 0.02,
+      "questionId": 1
+    },
+    {
+      "questionText": "When does alex.base typically post about tech?",
+      "options": [
+        "Morning",
+        "Afternoon",
+        "Evening",
+        "Late Night"
+      ],
+      "correctAnswer": 2,
+      "category": "Online Habits",
+      "stake_amount": 0.01,
+      "reward": 0.02,
       "questionId": 2
     },
     {
-      "questionText": "What tone does alex.base use in posts?",
+      "questionText": "How often does alex.base post about coding?",
       "options": [
-        "Excited",
-        "Sarcastic",
-        "Neutral",
-        "Critical"
+        "Frequently",
+        "Occasionally",
+        "Rarely",
+        "Never"
       ],
       "correctAnswer": 0,
-      "category": "Vibe",
+      "category": "Online Habits",
       "stake_amount": 0.01,
       "reward": 0.02,
       "questionId": 3
     },
     {
-      "questionText": "What skill is alex.base passionate about?",
+      "questionText": "How would friends describe alex.base\u2019s energy?",
       "options": [
-        "Coding",
-        "Marketing",
-        "Design",
-        "Writing"
+        "Innovative",
+        "Conservative",
+        "Relaxed",
+        "Intense"
       ],
       "correctAnswer": 0,
-      "category": "Career",
+      "category": "Vibe",
       "stake_amount": 0.01,
       "reward": 0.02,
       "questionId": 4
     },
     {
-      "questionText": "What does alex.base aim to build?",
+      "questionText": "What events does alex.base share online?",
       "options": [
-        "Decentralized platforms",
-        "Corporate empires",
-        "Charity organizations",
-        "Social media apps"
+        "Tech Events",
+        "Music Festivals",
+        "Book Clubs",
+        "Sports Games"
       ],
       "correctAnswer": 0,
-      "category": "Life Goals",
+      "category": "Online Habits",
       "stake_amount": 0.01,
       "reward": 0.02,
       "questionId": 5
@@ -86,29 +86,29 @@
       "questionId": 6
     },
     {
-      "questionText": "What impact does alex.base want to have?",
+      "questionText": "What\u2019s alex.base\u2019s social vibe?",
       "options": [
-        "Advance technology",
-        "Preserve tradition",
-        "Promote art",
-        "Protect environment"
+        "Tech enthusiast",
+        "Corporate professional",
+        "Free spirit",
+        "Activist"
       ],
       "correctAnswer": 0,
-      "category": "Life Goals",
+      "category": "Vibe",
       "stake_amount": 0.01,
       "reward": 0.02,
       "questionId": 7
     },
     {
-      "questionText": "What future does alex.base envision?",
+      "questionText": "What personality trait is alex.base most known for?",
       "options": [
-        "Decentralized internet",
-        "Global corporation",
-        "Sustainable cities",
-        "Space exploration"
+        "Openness",
+        "Conscientiousness",
+        "Extraversion",
+        "Agreeableness"
       ],
       "correctAnswer": 0,
-      "category": "Life Goals",
+      "category": "Mindset",
       "stake_amount": 0.01,
       "reward": 0.02,
       "questionId": 8
@@ -128,76 +128,6 @@
       "questionId": 9
     },
     {
-      "questionText": "What is alex.base\u2019s top interest?",
-      "options": [
-        "Artificial Intelligence",
-        "Finance",
-        "Sports",
-        "Art"
-      ],
-      "correctAnswer": 0,
-      "category": "Career",
-      "stake_amount": 0.01,
-      "reward": 0.02,
-      "questionId": 10
-    },
-    {
-      "questionText": "What events does alex.base share online?",
-      "options": [
-        "Tech Events",
-        "Music Festivals",
-        "Book Clubs",
-        "Sports Games"
-      ],
-      "correctAnswer": 0,
-      "category": "Online Habits",
-      "stake_amount": 0.01,
-      "reward": 0.02,
-      "questionId": 11
-    },
-    {
-      "questionText": "Where does alex.base thrive professionally?",
-      "options": [
-        "San Francisco tech scene",
-        "Wall Street",
-        "Hollywood",
-        "Academic research"
-      ],
-      "correctAnswer": 0,
-      "category": "Career",
-      "stake_amount": 0.01,
-      "reward": 0.02,
-      "questionId": 12
-    },
-    {
-      "questionText": "What personality trait is alex.base most known for?",
-      "options": [
-        "Openness",
-        "Conscientiousness",
-        "Extraversion",
-        "Agreeableness"
-      ],
-      "correctAnswer": 0,
-      "category": "Mindset",
-      "stake_amount": 0.01,
-      "reward": 0.02,
-      "questionId": 13
-    },
-    {
-      "questionText": "How would friends describe alex.base\u2019s energy?",
-      "options": [
-        "Innovative",
-        "Conservative",
-        "Relaxed",
-        "Intense"
-      ],
-      "correctAnswer": 0,
-      "category": "Vibe",
-      "stake_amount": 0.01,
-      "reward": 0.02,
-      "questionId": 14
-    },
-    {
       "questionText": "What is alex.base\u2019s main goal?",
       "options": [
         "Build decentralized solutions",
@@ -209,49 +139,63 @@
       "category": "Life Goals",
       "stake_amount": 0.01,
       "reward": 0.02,
-      "questionId": 15
+      "questionId": 10
     },
     {
-      "questionText": "What field excites alex.base?",
+      "questionText": "What tone does alex.base use in posts?",
       "options": [
-        "Tech Events",
-        "Fashion",
-        "Politics",
-        "Culinary Arts"
-      ],
-      "correctAnswer": 0,
-      "category": "Career",
-      "stake_amount": 0.01,
-      "reward": 0.02,
-      "questionId": 16
-    },
-    {
-      "questionText": "What\u2019s alex.base\u2019s social vibe?",
-      "options": [
-        "Tech enthusiast",
-        "Corporate professional",
-        "Free spirit",
-        "Activist"
+        "Excited",
+        "Sarcastic",
+        "Neutral",
+        "Critical"
       ],
       "correctAnswer": 0,
       "category": "Vibe",
       "stake_amount": 0.01,
       "reward": 0.02,
-      "questionId": 17
+      "questionId": 11
     },
     {
-      "questionText": "What technology does alex.base engage with?",
+      "questionText": "What impact does alex.base want to have?",
       "options": [
-        "Blockchain",
-        "Virtual Reality",
-        "Quantum Computing",
-        "Robotics"
+        "Advance technology",
+        "Preserve tradition",
+        "Promote art",
+        "Protect environment"
+      ],
+      "correctAnswer": 0,
+      "category": "Life Goals",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 12
+    },
+    {
+      "questionText": "What does alex.base aim to build?",
+      "options": [
+        "Decentralized platforms",
+        "Corporate empires",
+        "Charity organizations",
+        "Social media apps"
+      ],
+      "correctAnswer": 0,
+      "category": "Life Goals",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 13
+    },
+    {
+      "questionText": "What skill is alex.base passionate about?",
+      "options": [
+        "Coding",
+        "Marketing",
+        "Design",
+        "Writing"
       ],
       "correctAnswer": 0,
       "category": "Career",
       "stake_amount": 0.01,
       "reward": 0.02,
-      "questionId": 18
+      "questionId": 14
     },
     {
       "questionText": "How does alex.base communicate?",
@@ -265,18 +209,74 @@
       "category": "Vibe",
       "stake_amount": 0.01,
       "reward": 0.02,
+      "questionId": 15
+    },
+    {
+      "questionText": "Where does alex.base thrive professionally?",
+      "options": [
+        "San Francisco tech scene",
+        "Wall Street",
+        "Hollywood",
+        "Academic research"
+      ],
+      "correctAnswer": 0,
+      "category": "Career",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 16
+    },
+    {
+      "questionText": "What future does alex.base envision?",
+      "options": [
+        "Decentralized internet",
+        "Global corporation",
+        "Sustainable cities",
+        "Space exploration"
+      ],
+      "correctAnswer": 0,
+      "category": "Life Goals",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 17
+    },
+    {
+      "questionText": "What is alex.base\u2019s top interest?",
+      "options": [
+        "Artificial Intelligence",
+        "Finance",
+        "Sports",
+        "Art"
+      ],
+      "correctAnswer": 0,
+      "category": "Career",
+      "stake_amount": 0.01,
+      "reward": 0.02,
+      "questionId": 18
+    },
+    {
+      "questionText": "What field excites alex.base?",
+      "options": [
+        "Tech Events",
+        "Fashion",
+        "Politics",
+        "Culinary Arts"
+      ],
+      "correctAnswer": 0,
+      "category": "Career",
+      "stake_amount": 0.01,
+      "reward": 0.02,
       "questionId": 19
     },
     {
-      "questionText": "When does alex.base typically post about tech?",
+      "questionText": "What technology does alex.base engage with?",
       "options": [
-        "Morning",
-        "Afternoon",
-        "Evening",
-        "Late Night"
+        "Blockchain",
+        "Virtual Reality",
+        "Quantum Computing",
+        "Robotics"
       ],
-      "correctAnswer": 2,
-      "category": "Online Habits",
+      "correctAnswer": 0,
+      "category": "Career",
       "stake_amount": 0.01,
       "reward": 0.02,
       "questionId": 20
