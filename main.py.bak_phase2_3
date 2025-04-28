@@ -14,7 +14,7 @@ from trivia_templates import QUESTION_TEMPLATES
 random.seed(42)
 
 # Setup logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
@@ -77,41 +77,27 @@ def score_big_five(tweets: List[Dict]) -> Dict[str, float]:
     sentiments = sentiment_analyzer(texts, batch_size=8) if texts else [{"label": "3 stars"}]
     
     # Normalize scores by % of tweets
-    openness_tweets = sum(1 for t in tweets if any(w in t.get("text", "").lower() for w in ["innovate", "create", "tech", "hackathon", "web3", "blockchain"]))
-    conscientiousness_tweets = sum(1 for t in tweets if any(w in t.get("text", "").lower() for w in ["work", "project", "deadline", "plan", "coding", "session", "model", "bert"]))
+    openness_tweets = sum(1 for t in tweets if any(w in t.get("text", "").lower() for w in ["innovate", "create", "tech", "hackathon", "web3"]))
+    conscientiousness_tweets = sum(1 for t in tweets if any(w in t.get("text", "").lower() for w in ["work", "project", "deadline", "plan"]))
     extraversion_tweets = sum(1 for t in tweets if any(w in t.get("text", "").lower() for w in ["party", "meetup", "vibe", "friends"]))
     agreeableness_tweets = sum(1 for t, s in zip(tweets, sentiments) if s["label"] in ["4 stars", "5 stars"] or "thanks" in t.get("text", "").lower())
     neuroticism_tweets = sum(1 for t, s in zip(tweets, sentiments) if s["label"] in ["1 star", "2 stars"])
 
-    openness_boost = 20 * (openness_tweets / tweet_count)
-    conscientiousness_boost = 20 * (conscientiousness_tweets / tweet_count)
-    extraversion_boost = 20 * (extraversion_tweets / tweet_count)
-    agreeableness_boost = 20 * (agreeableness_tweets / tweet_count)
-    neuroticism_boost = 20 * (neuroticism_tweets / tweet_count)
-
-    openness += openness_boost
-    conscientiousness += conscientiousness_boost
-    extraversion += extraversion_boost
-    agreeableness += agreeableness_boost
-    neuroticism += neuroticism_boost
+    openness += 10 * (openness_tweets / tweet_count)
+    conscientiousness += 10 * (conscientiousness_tweets / tweet_count)
+    extraversion += 10 * (extraversion_tweets / tweet_count)
+    agreeableness += 10 * (agreeableness_tweets / tweet_count)
+    neuroticism += 10 * (neuroticism_tweets / tweet_count)
 
     # Explicit topic-based adjustments
     web3_count = sum(1 for t in tweets if "web3" in t.get("text", "").lower())
-    ai_count = sum(1 for t in tweets if any(w in t.get("text", "").lower() for w in ["ai", "bert", "model"]))
-    web3_boost = 0
-    ai_boost = 0
+    ai_count = sum(1 for t in tweets if "ai" in t.get("text", "").lower())
     if "Web3" in topics:
-        web3_boost = 20 * (web3_count / tweet_count)
-        openness += web3_boost
-        logger.info(f"Web3 boost applied: {web3_count}/{tweet_count} = {web3_boost}")
+        openness += 10 * (web3_count / tweet_count)
+        logger.info(f"Web3 boost applied: {web3_count}/{tweet_count}")
     if "AI" in topics:
-        ai_boost = 10 * (ai_count / tweet_count)
-        conscientiousness += ai_boost
-        logger.info(f"AI boost applied: {ai_count}/{tweet_count} = {ai_boost}")
-
-    # Log all boosts
-    logger.info(f"Openness: Base=50, Keyword={openness_boost}, Web3={web3_boost}, Total={openness}")
-    logger.info(f"Conscientiousness: Base=50, Keyword={conscientiousness_boost}, AI={ai_boost}, Total={conscientiousness}")
+        conscientiousness += 5 * (ai_count / tweet_count)
+        logger.info(f"AI boost applied: {ai_count}/{tweet_count}")
 
     # Log sentiment for debugging
     for tweet, sentiment in zip(tweets, sentiments):
@@ -129,6 +115,7 @@ def score_big_five(tweets: List[Dict]) -> Dict[str, float]:
 
 def analyze_posting_behavior(tweets: List[Dict]) -> str:
     try:
+        # Sort tweets by created_at (most recent first)
         sorted_tweets = sorted(tweets, key=lambda t: t.get("created_at", "2025-01-01T00:00:00Z"), reverse=True)
         hours = [datetime.datetime.fromisoformat(t.get("created_at", "2025-01-01T00:00:00Z").replace("Z", "+00:00")).hour for t in sorted_tweets]
         if not hours:
@@ -141,6 +128,7 @@ def analyze_posting_behavior(tweets: List[Dict]) -> str:
                 bins["Afternoon"] += 1
             else:
                 bins["Night"] += 1
+        # Prioritize Night if present, else max frequency
         if bins["Night"] > 0:
             max_bin = "Night"
         else:
@@ -161,17 +149,14 @@ def analyze_writing_style(tweets: List[Dict]) -> str:
     return "Casual tweeter"
 
 def keyword_based_topics(tweets: List[Dict]) -> List[str]:
-    topic_counts = {"Web3": 0, "AI": 0, "Social": 0}
+    topic_counts = {"Web3": 0, "AI": 0}
     for tweet in tweets:
         text = tweet.get("text", "").lower()
         if any(word in text for word in ["web3", "blockchain", "hackathon"]):
             topic_counts["Web3"] += 1
         if any(word in text for word in ["ai", "bert", "model"]):
             topic_counts["AI"] += 1
-        if any(word in text for word in ["party", "friends", "vibe", "crew"]):
-            topic_counts["Social"] += 1
     topics = [topic for topic, count in sorted(topic_counts.items(), key=lambda x: x[1], reverse=True) if count > 0]
-    logger.debug(f"Keyword-based topics: {topics}")
     return topics or ["General"]
 
 def analyze_topics(tweets: List[Dict]) -> List[str]:
@@ -194,13 +179,12 @@ def analyze_topics(tweets: List[Dict]) -> List[str]:
         return keyword_based_topics(tweets)
 
 def generate_personality_report(username: str, tweets: List[Dict]) -> Dict:
-    logger.debug(f"Generating personality report for {username}")
+    logger.info(f"Generating personality report for {username}")
     big5 = score_big_five(tweets)
     posting_style = analyze_posting_behavior(tweets)
     writing_style = analyze_writing_style(tweets)
     topics = analyze_topics(tweets)
 
-    random.seed(42)
     nickname = "The " + random.choice(["Wild", "Cosmic", "Tech"]) + " " + random.choice(["Trailblazer", "Philosopher", "VibeMaster"])
     motto = random.choice([
         "Tweet hard, vibe easy!",
@@ -226,7 +210,7 @@ def generate_personality_report(username: str, tweets: List[Dict]) -> Dict:
         "motto": motto,
         "superpower": superpower,
         "quirk": quirk,
-        "ipfs_hash": None
+        "ipfs_hash": None  # Deferred to Phase 3
     }
 
     try:
@@ -245,63 +229,28 @@ def generate_personality_report(username: str, tweets: List[Dict]) -> Dict:
     return report
 
 def generate_trivia_questions(username: str, report: Dict, tweets: List[Dict]) -> Dict:
-    logger.debug(f"Generating 15 trivia questions for {username}")
+    logger.info(f"Generating 15 trivia questions for {username}")
     questions = []
     topics = analyze_topics(tweets)
     primary_topic = topics[0] if topics else "General"
     secondary_topic = topics[1] if len(topics) > 1 else "General"
     has_web3 = "Web3" in topics
-    logger.debug(f"Primary topic: {primary_topic}, Secondary topic: {secondary_topic}")
 
-    # Analyze tweet frequency for Q4
-    tweet_dates = [datetime.datetime.fromisoformat(t.get("created_at", "2025-01-01T00:00:00Z").replace("Z", "+00:00")).date() for t in tweets]
-    unique_days = len(set(tweet_dates))
-    is_random_bursts = unique_days >= len(tweets) and len(tweets) > 1  # Tweets on different days
-
-    # Sentiment for Q3
-    texts = [t.get("text", "") for t in tweets]
-    sentiments = sentiment_analyzer(texts, batch_size=8) if texts else [{"label": "3 stars"}]
-    is_chill_vibe = any(s["label"] in ["4 stars", "5 stars"] for s in sentiments)
-
+    # Ensure 2–3 topic questions
     topic_templates = [t for t in QUESTION_TEMPLATES if t["category"] == "Topics"]
     other_templates = [t for t in QUESTION_TEMPLATES if t["category"] != "Topics"]
     selected_templates = random.sample(topic_templates, min(2, len(topic_templates))) + \
                         random.sample(other_templates, 15 - min(2, len(topic_templates)))
-    logger.debug(f"Selected templates: {len(selected_templates)}")
-
-    big5 = report["big5_traits"]
-    trait_scores = {
-        "Creative": big5["Openness"],
-        "Organized": big5["Conscientiousness"],
-        "Social": big5["Extraversion"]
-    }
-    # Prioritize Social if topic includes Social and Extraversion >= 65.0
-    if "Social" in topics and big5["Extraversion"] >= 65.0:
-        max_trait = "Social"
-    else:
-        max_trait = max(trait_scores, key=lambda k: trait_scores[k] if trait_scores[k] >= 65.0 else -float('inf'))
-    trait_to_answer = {"Creative": 0, "Organized": 1, "Social": 2}
-    logger.debug(f"Trait scores: {trait_scores}, Topics: {topics}, Selected: {max_trait}, Answer: {trait_to_answer[max_trait]}")
 
     for i, template in enumerate(selected_templates, 1):
-        if template["questionText"] == "When is {username} most likely to tweet?":
-            correct_answer = 3 if "Night" in report["posting_style"] else 0
-        elif template["questionText"] == "What drives {username}'s tweets?":
-            correct_answer = 0 if has_web3 else 1
-        elif template["questionText"] == "If {username} were a movie character, what genre would they be in?":
-            correct_answer = 0
+        if template["questionText"] == "If {username} were a movie character, what genre would they be in?":
+            correct_answer = 0  # Sci-Fi for Web3
         elif template["questionText"] == "If {username} went viral, what would it be for?":
-            correct_answer = 3
+            correct_answer = 3  # Tech breakthrough
         elif template["questionText"] == "What's {username}'s social media energy?":
-            correct_answer = 3 if "Social" in topics and big5["Extraversion"] >= 65.0 else 0  # Party starter for social users
+            correct_answer = 0  # Tech guru
         elif template["questionText"] == "What's {username}'s ideal Twitter moment?":
-            correct_answer = 2
-        elif template["questionText"] == "What's {username}'s Twitter personality trait?":
-            correct_answer = trait_to_answer[max_trait]
-        elif template["questionText"] == "What's {username}'s biggest vibe?":
-            correct_answer = 0 if is_chill_vibe else 2  # Chill Vibes CEO if positive sentiment
-        elif template["questionText"] == "What's {username}'s tweet frequency vibe?":
-            correct_answer = 3 if is_random_bursts else 0  # Random bursts if tweets on different days
+            correct_answer = 2  # Tech debate
         else:
             correct_answer = template["correctAnswer"]
             if callable(correct_answer):
@@ -323,7 +272,6 @@ def generate_trivia_questions(username: str, report: Dict, tweets: List[Dict]) -
             "stage": (i - 1) // 5 + 1
         }
         questions.append(question)
-        logger.debug(f"Question {i}: {question['questionText']}, Category: {question['category']}, Answer: {question['correctAnswer']}")
 
     categories = {
         "Vibe": sum(1 for q in questions if q["category"] == "Vibe"),
@@ -331,13 +279,12 @@ def generate_trivia_questions(username: str, report: Dict, tweets: List[Dict]) -
         "Topics": sum(1 for q in questions if q["category"] == "Topics"),
         "Personality": sum(1 for q in questions if q["category"] == "Personality")
     }
-    logger.debug(f"Category counts: {categories}")
 
     trivia = {
         "username": username,
         "questions": questions,
         "categories": categories,
-        "ipfs_hash": None
+        "ipfs_hash": None  # Deferred to Phase 3
     }
 
     try:

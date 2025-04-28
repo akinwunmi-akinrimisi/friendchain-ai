@@ -253,16 +253,6 @@ def generate_trivia_questions(username: str, report: Dict, tweets: List[Dict]) -
     has_web3 = "Web3" in topics
     logger.debug(f"Primary topic: {primary_topic}, Secondary topic: {secondary_topic}")
 
-    # Analyze tweet frequency for Q4
-    tweet_dates = [datetime.datetime.fromisoformat(t.get("created_at", "2025-01-01T00:00:00Z").replace("Z", "+00:00")).date() for t in tweets]
-    unique_days = len(set(tweet_dates))
-    is_random_bursts = unique_days >= len(tweets) and len(tweets) > 1  # Tweets on different days
-
-    # Sentiment for Q3
-    texts = [t.get("text", "") for t in tweets]
-    sentiments = sentiment_analyzer(texts, batch_size=8) if texts else [{"label": "3 stars"}]
-    is_chill_vibe = any(s["label"] in ["4 stars", "5 stars"] for s in sentiments)
-
     topic_templates = [t for t in QUESTION_TEMPLATES if t["category"] == "Topics"]
     other_templates = [t for t in QUESTION_TEMPLATES if t["category"] != "Topics"]
     selected_templates = random.sample(topic_templates, min(2, len(topic_templates))) + \
@@ -275,13 +265,10 @@ def generate_trivia_questions(username: str, report: Dict, tweets: List[Dict]) -
         "Organized": big5["Conscientiousness"],
         "Social": big5["Extraversion"]
     }
-    # Prioritize Social if topic includes Social and Extraversion >= 65.0
-    if "Social" in topics and big5["Extraversion"] >= 65.0:
-        max_trait = "Social"
-    else:
-        max_trait = max(trait_scores, key=lambda k: trait_scores[k] if trait_scores[k] >= 65.0 else -float('inf'))
+    # Select trait with highest score above threshold (65.0)
+    max_trait = max(trait_scores, key=lambda k: trait_scores[k] if trait_scores[k] >= 65.0 else -float('inf'))
     trait_to_answer = {"Creative": 0, "Organized": 1, "Social": 2}
-    logger.debug(f"Trait scores: {trait_scores}, Topics: {topics}, Selected: {max_trait}, Answer: {trait_to_answer[max_trait]}")
+    logger.debug(f"Trait scores: {trait_scores}, Selected: {max_trait}, Answer: {trait_to_answer[max_trait]}")
 
     for i, template in enumerate(selected_templates, 1):
         if template["questionText"] == "When is {username} most likely to tweet?":
@@ -293,15 +280,11 @@ def generate_trivia_questions(username: str, report: Dict, tweets: List[Dict]) -
         elif template["questionText"] == "If {username} went viral, what would it be for?":
             correct_answer = 3
         elif template["questionText"] == "What's {username}'s social media energy?":
-            correct_answer = 3 if "Social" in topics and big5["Extraversion"] >= 65.0 else 0  # Party starter for social users
+            correct_answer = 0
         elif template["questionText"] == "What's {username}'s ideal Twitter moment?":
             correct_answer = 2
         elif template["questionText"] == "What's {username}'s Twitter personality trait?":
             correct_answer = trait_to_answer[max_trait]
-        elif template["questionText"] == "What's {username}'s biggest vibe?":
-            correct_answer = 0 if is_chill_vibe else 2  # Chill Vibes CEO if positive sentiment
-        elif template["questionText"] == "What's {username}'s tweet frequency vibe?":
-            correct_answer = 3 if is_random_bursts else 0  # Random bursts if tweets on different days
         else:
             correct_answer = template["correctAnswer"]
             if callable(correct_answer):

@@ -1,1 +1,18 @@
+# Python
+__pycache__/
+*.pyc
 .venv/
+.venv_backup/
+
+# Logs and temporary files
+*.log
+*.json
+*.jsoncurl
+
+# Backups
+*.bak
+friendchain-ai-phase2-backup/
+friendchain-ai-phase2-backup-*/
+
+# IDE files
+.idea/
