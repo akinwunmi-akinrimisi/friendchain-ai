@@ -16,3 +16,17 @@ friendchain-ai-phase2-backup-*/
 
 # IDE files
 .idea/
+
+
+
+__pycache__/
+*.pyc
+.venv/
+.venv_backup/
+*.log
+*.json
+*.jsoncurl
+*.bak
+friendchain-ai-phase2-backup/
+friendchain-ai-phase2-backup-*/
+.idea/

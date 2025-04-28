@@ -7,11 +7,9 @@ from bertopic import BERTopic
 import datetime
 from typing import List, Dict
 import random
+import logging
 from trivia_templates import QUESTION_TEMPLATES
 
-
-import logging
-logger = logging.getLogger(__name__)
 
 sentiment_analyzer = None
 topic_model = None
